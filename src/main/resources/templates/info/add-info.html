@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Tags</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light px-10">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-black" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item text-black">
+                        <a class="nav-link" href="/items">Items</a>
+                    </li>
+                    <li class="nav-item text-black active">
+                        <a class="nav-link" href="/info">Info</a>
+                    </li>
+                    <li class="nav-item text-black">
+                        <a class="nav-link" href="/tags">Tags</a>
+                    </li>
+                    <li class="nav-item text-black">
+                        <a class="nav-link" href="/orders">Orders</a>
+                    </li>
+                </ul>
+                <div class="form-inline my-2 my-lg-0">
+                    <span sec:authentication="name">user</span>
+                    <form th:action="@{/logout}" method="POST"> <input type="submit" class="btn btn-primary ml-2" value="Logout"> </form>
+                </div>
+            </div>
+        </nav>
+        <div class="container pt-4 mt-4 text-center">
+            <h2 class="text-black text-center" style="border-bottom: 2px solid black; padding-bottom: 10px; ">New info</h2>
+            <form class="pt-5" th:object="${infos}" th:action="@{/infosave/}" method="post" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="container">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label>Country:</label>
+                                    <input type="text" class="form-control" th:field="*{country}"/>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <label th:for="items">Items</label>
+                                    <select id ="items" th:field="*{items}" class="form-select w-100 h-50 border rounded border-1 bg-white" aria-label="Default select example">
+                                        <option selected value="null">Select an item</option>
+                                        <option th:each="item: ${itemsAll}"  th:value="${item.id}" th:text="${item.name}" ></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>Description:</label>
+                                    <textarea type="text" class="form-control" th:field="*{description}"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mx-auto">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
